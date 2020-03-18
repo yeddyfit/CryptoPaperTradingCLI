@@ -1,37 +1,39 @@
 require 'httparty'
 require 'tty-prompt'
-# require 'net/http'
-# require 'json'
+require 'terminal-table'
 
-btcUrl = 'https://api.btcmarkets.net/market/BTC/AUD/tick'
-ethUrl = 'https://api.btcmarkets.net/market/ETH/AUD/tick'
-ltcUrl = 'https://api.btcmarkets.net/market/LTC/AUD/tick'
-
-options = ["lastPrice", "volume24h", "bestBid", "bestAsk", "low24h", "high24h"]
+### utilises btcmarkets data api, fetching and parsing SJON data
+urls = {
+"btcUrl" => 'https://api.btcmarkets.net/market/BTC/AUD/tick',
+"ethUrl" => 'https://api.btcmarkets.net/market/ETH/AUD/tick',
+"ltcUrl" => 'https://api.btcmarkets.net/market/LTC/AUD/tick'
+}
+menuOptions = ["lastPrice", "volume24h", "bestBid", "bestAsk", "low24h", "high24h"]
 currencies = ["BTC", "ETH", "LTC"]
 
+# select chosen currency 
 puts `clear`
 prompt = TTY::Prompt.new
 curr = prompt.select("Choose Currency", currencies)
 url = nil
 case curr
 when "BTC"
-    url = btcUrl
+    url = urls["btcUrl"]
 when "ETH"
-    url = ethUrl
+    url = urls["ethUrl"]
 when "LTC"
-    url = ltcUrl
+    url = urls["ltcUrl"]
 end
 
-
-# url = ethUrl
-# uri = URI(url)
-# url = "https://api.btcmarkets.net/v2/market/active"
-# response = Net::HTTP.get(uri)
-# data_hash = JSON.parse(response)
-
+# fetch and parse data
 data_hash = HTTParty.get(url).parsed_response
-puts data_hash["lastPrice"]
+# create and print table of parsed data
+rows = []
+menuOptions.each do |option| 
+    rows << [option, data_hash[option]]
+end
 
+table = Terminal::Table.new :rows => rows
+puts table
 
 
