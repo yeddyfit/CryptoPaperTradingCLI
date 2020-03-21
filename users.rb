@@ -36,16 +36,9 @@ def chooseUser()
                 $port = $ports[i]
             else
                 puts " THER'S A RABBT IN THE SYSTM"
-                chooseUser()
+                userMenu()
             end
         end
-    end
-    
-    
-
-
-
-
     menuChoice()
 end
 
@@ -74,6 +67,7 @@ def userMenu()
     when options[2]
         saveUser()
     when options[3]
+        puts
         exit()
     end
 end

@@ -1,6 +1,5 @@
 require_relative './testing.rb'
 
-
 arr = Marshal.load(File.read('txt.dump'))
 
 arr[0].user = "Pasha"

@@ -5,11 +5,9 @@
 # NOTE2: can be extended by comparing prices with other market data,
 #        and notifying (w/ gem) about arbitrage oppurtunities.    
 
-require 'httparty'
-require 'tty-prompt'
-require 'terminal-table'
 
 require_relative './users.rb'
+require_relative './tableStats.rb'
 
 $urls = {
     # could replace this w/ an interpolation function replacing the value (scales better)
@@ -20,13 +18,9 @@ $urls = {
     "ltc(btc)Url" => 'https://api.btcmarkets.net/market/LTC/BTC/tick'
     }
 $priceData = ["lastPrice", "volume24h", "bestBid", "bestAsk", "low24h", "high24h"]
-$currencies = ["BTC", "ETH", "LTC", "ETH(btc)", "LTC(btc)", "Triangular Arbitrage?"]
-$menuOptions = ["Display Balances", "Buy Currencies", "Sell Currencies", "Back to User Menu"]
+$currencies = ["BTC", "ETH", "LTC", "ETH(btc)", "LTC(btc)"]
+$menuOptions = ["Display Balances", "Buy Currencies", "Sell Currencies", "Currency Stats", "Back to User Menu"]
 
-
-# $ports = []
-# $ports.push(Portfolio.new("King", "Jacob"))
-# $port = $ports[0]
 
 def menuChoice()
     puts
@@ -44,6 +38,8 @@ def menuChoice()
         amount = prompt.ask("  You have #{$port.holdings[curr]}, how much do you want to sell? ")
         sellCurr(amount, curr)
     when $menuOptions[3]
+        statMenu()
+    when $menuOptions[4]
         userMenu()
     end
     puts "chur"
@@ -60,14 +56,12 @@ def getPrice(curr, bidOrAsk = nil)
     end
 end
 
-def displayPrices()
-    
-end
 
 
 def displayBalances()
-    puts $port.cash
-    puts $port.holdings
+    puts " " + $port.cash
+    puts " " + $port.holdings
+
     menuChoice()
 end
 
@@ -98,8 +92,3 @@ def sellCurr(currAmount, curr)
     end
     menuChoice()
 end
-
- 
-
-# puts `clear`
-# menuChoice()
