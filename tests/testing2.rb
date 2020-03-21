@@ -1,17 +1,11 @@
-# # ports = File.open("text.rb")
-# ports = Marshal.load(File.read(text))
-
-# puts ports.user
 require_relative './testing.rb'
 
 
 arr = Marshal.load(File.read('txt.dump'))
-# arr.each { |item| item = Marshal.load(item) }
 
-# arr[0].user = "Pasha"
-# sleep(5)
+arr[0].user = "Pasha"
 File.open('txt.dump', 'w') { |f| f.write(Marshal.dump(arr)) }
-puts arr[0].user
+# puts arr[0].user
 
 
 

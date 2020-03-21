@@ -40,6 +40,8 @@ end
 # File.open('txt.dump', 'w') { |f| f.write(Marshal.dump(ports)) }
 
 
+
+
 # Port = Struct.new(:user, :pass, :balance, :holdings)
 # port2 = Port.new("Jacob", "King", 2000,  {"eth"=> 0, "btc" => 0,"ltc" => 0})
 # port3 = Port.new("King", "Jacob", 5000, {"eth"=> 0, "btc" => 0,"ltc" => 0})
