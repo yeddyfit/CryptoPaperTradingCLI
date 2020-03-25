@@ -30,7 +30,7 @@ def chooseUser()
     choice = $prompt.select(" Choose Profile", names)
 
     for i in 0..$ports.length-1 do 
-        if $ports[i].user = choice
+        if $ports[i].user == choice
             pass = $prompt.mask(" What's the password? ")
             if pass == $ports[i].pass
                 $port = $ports[i]
@@ -39,6 +39,7 @@ def chooseUser()
                 userMenu()
             end
         end
+    end
     menuChoice()
 end
 

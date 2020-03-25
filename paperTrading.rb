@@ -59,8 +59,8 @@ end
 
 
 def displayBalances()
-    puts " " + $port.cash
-    puts " " + $port.holdings
+    puts "  " + "#{$port.cash}"
+    puts "  " + "#{$port.holdings}"
 
     menuChoice()
 end
