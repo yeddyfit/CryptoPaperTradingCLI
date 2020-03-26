@@ -1,11 +1,3 @@
-#### Paper trading CLI that uses BC exchange API price data
-#### utilises btcmarkets data api, fetching and parsing SJON data
-#### https://github.com/BTCMarkets/API/wiki/Market-data-API
-# NOTE1: remove APIs if made public
-# NOTE2: can be extended by comparing prices with other market data,
-#        and notifying (w/ gem) about arbitrage oppurtunities.    
-
-
 require_relative './users.rb'
 require_relative './tableStats.rb'
 
@@ -22,27 +14,26 @@ $currencies = ["BTC", "ETH", "LTC", "ETH(btc)", "LTC(btc)"]
 $menuOptions = ["Display Balances", "Buy Currencies", "Sell Currencies", "Currency Stats", "Back to User Menu"]
 
 
+
 def menuChoice()
     puts
-    prompt = TTY::Prompt.new
-    option = prompt.select("  Whatchu wanna do homebreezy? ", $menuOptions)
+    option = $prompt.select("  Whatchu wanna do homebreezy? ", $menuOptions)
     case option
     when $menuOptions[0]
         displayBalances()
     when $menuOptions[1]
-        curr = prompt.select("  Which currency bruh?", %w(ETH BTC LTC))
-        amount = prompt.ask("  You have $#{$port.cash}, much do you want to spend? ")
+        curr = $prompt.select("  Which currency bruh?", %w(ETH BTC LTC))
+        amount = $prompt.ask("  You have $#{$port.cash}, much do you want to spend? ")
         buyCurr(amount, curr)
     when $menuOptions[2]
-        curr = prompt.select("  Which currency bruh?", %w(ETH BTC LTC))
-        amount = prompt.ask("  You have #{$port.holdings[curr]}, how much do you want to sell? ")
+        curr = $prompt.select("  Which currency bruh?", %w(ETH BTC LTC))
+        amount = $prompt.ask("  You have #{$port.holdings[curr]}, how much do you want to sell? ")
         sellCurr(amount, curr)
     when $menuOptions[3]
         statMenu()
     when $menuOptions[4]
         userMenu()
     end
-    puts "chur"
 end
 
 
@@ -57,13 +48,13 @@ def getPrice(curr, bidOrAsk = nil)
 end
 
 
-
 def displayBalances()
     puts "  " + "#{$port.cash}"
     puts "  " + "#{$port.holdings}"
 
     menuChoice()
 end
+
 
 def buyCurr(amount, curr)
     price = getPrice(curr, "bid").round(2)
@@ -78,6 +69,7 @@ def buyCurr(amount, curr)
     end
     menuChoice()
 end
+
 
 def sellCurr(currAmount, curr)
     price = getPrice(curr, "ask").round(2)

@@ -1,39 +1,15 @@
-### code for creating/choosing new or existing user
 require_relative './paperTrading.rb'
-
-
-# $ports.push(Portfolio.new("King", "Jacob"))
-# $port = $ports[0]
-
-#Start out with no holdings and a balance of 5000
-class Portfolio
-    attr_accessor :user, :pass, :cash, :holdings
-    def initialize(user, pass = "")
-        @user = user
-        @pass = pass
-        @cash = 5000
-        @holdings = {
-            "ETH"=> 0,
-            "BTC" => 0,
-            "LTC" => 0
-            }
-    end
-end
-
 
 def chooseUser()
     names = []
-    for i in 0..$ports.length-1 do
-        names.push($ports[i].user)
-    end
+    $ports.each { |port| names.push(port.user) }
 
     choice = $prompt.select(" Choose Profile", names)
-
-    for i in 0..$ports.length-1 do 
-        if $ports[i].user == choice
+    $ports.each do |port|
+        if port.user == choice
             pass = $prompt.mask(" What's the password? ")
-            if pass == $ports[i].pass
-                $port = $ports[i]
+            if pass == port.pass
+                $port = port
             else
                 puts " THER'S A RABBT IN THE SYSTM"
                 userMenu()
@@ -55,20 +31,9 @@ def saveUser()
     userMenu()
 end
 
+
 def userMenu()
-    options = ["Choose User", "New User", "Save User", "Exit"]
-    prompt = TTY::Prompt.new
-    choice = prompt.select(" Choose menu \n", options)
-    
-    case choice
-    when options[0]
-        chooseUser()
-    when options[1]
-        newUser()
-    when options[2]
-        saveUser()
-    when options[3]
-        puts
-        exit()
-    end
+    options = {"Choose User" => "chooseUser", "New User" => "newUser", "Save User" => "saveUser", "Exit" => "exit"}
+    command = $prompt.select(" Choose menu \n", options)
+    self.send(command)
 end
